@@ -44,8 +44,13 @@ async function pin(id, params, res) {
 const fn = { send, pin };
 
 router.post('/', async (req, res) => {
-  const { id, method, params } = req.body;
-  return await fn[method](id, params, res);
+  try {
+    const { id, method, params } = req.body;
+    return await fn[method](id, params, res);
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ msg: 'somethings wrong m8 !' })
+  }
 });
 
 export default router;
